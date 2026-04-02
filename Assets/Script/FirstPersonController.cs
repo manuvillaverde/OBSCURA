@@ -26,7 +26,7 @@ public class FirstPersonM : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensivity;
 
-        xRotation -= mouseY;
+        xRotation = xRotation - mouseY;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
 
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -43,7 +43,7 @@ public class FirstPersonM : MonoBehaviour
         if (controller.isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y = velocity.y + (gravity * Time.deltaTime);
         controller.Move(velocity * Time.deltaTime);
     }
 }
