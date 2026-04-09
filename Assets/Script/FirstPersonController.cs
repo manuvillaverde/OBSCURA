@@ -12,13 +12,17 @@ public class FirstPersonController : MonoBehaviour
     CharacterController _controller;
     Vector3 _velocity;
     float _xRotation = 0f;
+    [SerializeField] private Light _flashlight;
 
     public Transform playerCamera;
 
+
     // NEW INPUT SYSTEM
+
     PlayerMovement _inputActions;
     InputAction _moveAction;
     InputAction _lookAction;
+    InputAction _flashlightAction;
 
     Vector2 _moveInput;
     Vector2 _lookInput;
@@ -31,6 +35,7 @@ public class FirstPersonController : MonoBehaviour
 
         _moveAction = _inputActions.FindAction("Move", true);
         _lookAction = _inputActions.FindAction("Look", true);
+        _flashlightAction = _inputActions.FindAction("Flashlight", true);
     }
 
     void OnEnable()
@@ -38,8 +43,10 @@ public class FirstPersonController : MonoBehaviour
         if (_inputActions == null)
         {
             _inputActions = new PlayerMovement();
+
             _moveAction = _inputActions.FindAction("Move", true);
             _lookAction = _inputActions.FindAction("Look", true);
+            _flashlightAction = _inputActions.FindAction("Flashlight", true);
         }
 
         _inputActions.Enable();
@@ -62,6 +69,27 @@ public class FirstPersonController : MonoBehaviour
         _moveInput = _moveAction.ReadValue<Vector2>();
         _lookInput = _lookAction.ReadValue<Vector2>();
 
+        FlashlightAction();
+
+        LookActions();
+
+        MoveActions();
+    }
+
+    private void MoveActions()
+    {
+        Vector3 move = (transform.right * _moveInput.x + transform.forward * _moveInput.y).normalized;
+        _controller.Move(move * speed * Time.deltaTime);
+
+        if (_controller.isGrounded && _velocity.y < 0)
+            _velocity.y = -2f;
+
+        _velocity.y += gravity * Time.deltaTime;
+        _controller.Move(_velocity * Time.deltaTime);
+    }
+
+    private void LookActions()
+    {
         _smoothLookInput = Vector2.Lerp(_smoothLookInput, _lookInput, lookSmooth * Time.deltaTime);
 
         float mouseX = _smoothLookInput.x * mouseSensivity * Time.deltaTime;
@@ -72,14 +100,23 @@ public class FirstPersonController : MonoBehaviour
 
         playerCamera.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
+    }
 
-        Vector3 move = (transform.right * _moveInput.x + transform.forward * _moveInput.y).normalized;
-        _controller.Move(move * speed * Time.deltaTime);
+    private void FlashlightAction()
 
-        if (_controller.isGrounded && _velocity.y < 0)
-            _velocity.y = -2f;
+    {
+        if (_flashlightAction.WasPressedThisFrame())
+        {
+            Debug.Log("se presiono f");
+            if (_flashlight.isActiveAndEnabled)
+            {
+                _flashlight.enabled = false;
+            }
+            else
+            {
+                _flashlight.enabled = true;
+            }
+        }
 
-        _velocity.y += gravity * Time.deltaTime;
-        _controller.Move(_velocity * Time.deltaTime);
     }
 }

@@ -109,6 +109,15 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Flashlight"",
+                    ""type"": ""Button"",
+                    ""id"": ""9bc9acd0-6a8a-469e-8ba3-8e41b214aafa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -177,6 +186,17 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3bac8a69-950f-4906-bfb2-a11b59c7b163"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flashlight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         m_FirstPersonController = asset.FindActionMap("FirstPersonController", throwIfNotFound: true);
         m_FirstPersonController_Move = m_FirstPersonController.FindAction("Move", throwIfNotFound: true);
         m_FirstPersonController_Look = m_FirstPersonController.FindAction("Look", throwIfNotFound: true);
+        m_FirstPersonController_Flashlight = m_FirstPersonController.FindAction("Flashlight", throwIfNotFound: true);
     }
 
     ~@PlayerMovement()
@@ -269,6 +290,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
     private List<IFirstPersonControllerActions> m_FirstPersonControllerActionsCallbackInterfaces = new List<IFirstPersonControllerActions>();
     private readonly InputAction m_FirstPersonController_Move;
     private readonly InputAction m_FirstPersonController_Look;
+    private readonly InputAction m_FirstPersonController_Flashlight;
     /// <summary>
     /// Provides access to input actions defined in input action map "FirstPersonController".
     /// </summary>
@@ -288,6 +310,10 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "FirstPersonController/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_FirstPersonController_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "FirstPersonController/Flashlight".
+        /// </summary>
+        public InputAction @Flashlight => m_Wrapper.m_FirstPersonController_Flashlight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -320,6 +346,9 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Flashlight.started += instance.OnFlashlight;
+            @Flashlight.performed += instance.OnFlashlight;
+            @Flashlight.canceled += instance.OnFlashlight;
         }
 
         /// <summary>
@@ -337,6 +366,9 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Flashlight.started -= instance.OnFlashlight;
+            @Flashlight.performed -= instance.OnFlashlight;
+            @Flashlight.canceled -= instance.OnFlashlight;
         }
 
         /// <summary>
@@ -391,5 +423,12 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Flashlight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFlashlight(InputAction.CallbackContext context);
     }
 }
