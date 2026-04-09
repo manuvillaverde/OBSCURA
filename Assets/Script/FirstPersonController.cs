@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class FirstPersonM : MonoBehaviour
+public class FirstPersonController : MonoBehaviour
 {
     public float speed = 5f;
     public float mouseSensivity = 500f;
@@ -9,77 +9,77 @@ public class FirstPersonM : MonoBehaviour
 
     public float lookSmooth = 15f;
 
-    CharacterController controller;
-    Vector3 velocity;
-    float xRotation = 0f;
+    CharacterController _controller;
+    Vector3 _velocity;
+    float _xRotation = 0f;
 
     public Transform playerCamera;
 
     // NEW INPUT SYSTEM
-    PlayerMovement inputActions;
-    InputAction moveAction;
-    InputAction lookAction;
+    PlayerMovement _inputActions;
+    InputAction _moveAction;
+    InputAction _lookAction;
 
-    Vector2 moveInput;
-    Vector2 lookInput;
+    Vector2 _moveInput;
+    Vector2 _lookInput;
 
-    Vector2 smoothLookInput;
+    Vector2 _smoothLookInput;
 
     void Awake()
     {
-        inputActions = new PlayerMovement();
+        _inputActions = new PlayerMovement();
 
-        moveAction = inputActions.FindAction("Move", true);
-        lookAction = inputActions.FindAction("Look", true);
+        _moveAction = _inputActions.FindAction("Move", true);
+        _lookAction = _inputActions.FindAction("Look", true);
     }
 
     void OnEnable()
     {
-        if (inputActions == null)
+        if (_inputActions == null)
         {
-            inputActions = new PlayerMovement();
-            moveAction = inputActions.FindAction("Move", true);
-            lookAction = inputActions.FindAction("Look", true);
+            _inputActions = new PlayerMovement();
+            _moveAction = _inputActions.FindAction("Move", true);
+            _lookAction = _inputActions.FindAction("Look", true);
         }
 
-        inputActions.Enable();
+        _inputActions.Enable();
     }
 
     void OnDisable()
     {
-        if (inputActions != null)
-            inputActions.Disable();
+        if (_inputActions != null)
+            _inputActions.Disable();
     }
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        _controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        moveInput = moveAction.ReadValue<Vector2>();
-        lookInput = lookAction.ReadValue<Vector2>();
+        _moveInput = _moveAction.ReadValue<Vector2>();
+        _lookInput = _lookAction.ReadValue<Vector2>();
 
-        smoothLookInput = Vector2.Lerp(smoothLookInput, lookInput, lookSmooth * Time.deltaTime);
+        _smoothLookInput = Vector2.Lerp(_smoothLookInput, _lookInput, lookSmooth * Time.deltaTime);
 
-        float mouseX = smoothLookInput.x * mouseSensivity * Time.deltaTime;
-        float mouseY = smoothLookInput.y * mouseSensivity * Time.deltaTime;
+        float mouseX = _smoothLookInput.x * mouseSensivity * Time.deltaTime;
+        float mouseY = _smoothLookInput.y * mouseSensivity * Time.deltaTime;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -80f, 80f);
+        _xRotation -= mouseY;
+        _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
 
-        playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerCamera.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
 
-        Vector3 move = (transform.right * moveInput.x + transform.forward * moveInput.y).normalized;
-        controller.Move(move * speed * Time.deltaTime);
+        Vector3 move = (transform.right * _moveInput.x + transform.forward * _moveInput.y).normalized;
+        _controller.Move(move * speed * Time.deltaTime);
 
-        if (controller.isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        if (_controller.isGrounded && _velocity.y < 0)
+            _velocity.y = -2f;
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        _velocity.y += gravity * Time.deltaTime;
+        _controller.Move(_velocity * Time.deltaTime);
     }
 }
