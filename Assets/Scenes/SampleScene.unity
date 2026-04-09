@@ -1111,6 +1111,7 @@ MonoBehaviour:
   mouseSensivity: 20
   gravity: -9.81
   lookSmooth: 15
+  _flashlight: {fileID: 1075031666}
   playerCamera: {fileID: 330585546}
 --- !u!1001 &1971106380
 PrefabInstance:
