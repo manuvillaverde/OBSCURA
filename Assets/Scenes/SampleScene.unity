@@ -1108,7 +1108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FirstPersonM
   speed: 5
-  mouseSensivity: 20
+  mouseSensivity: 10
+  gamepadSensivity: 200
   gravity: -9.81
   lookSmooth: 15
   _flashlight: {fileID: 1075031666}

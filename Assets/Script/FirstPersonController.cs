@@ -4,21 +4,26 @@ using UnityEngine.InputSystem;
 public class FirstPersonController : MonoBehaviour
 {
     public float speed = 5f;
-    public float mouseSensivity = 500f;
-    public float gravity = -9.81f;
 
+    public float mouseSensivity = 500f;
+    public float gamepadSensivity = 200f;
+
+    public float gravity = -9.81f;
     public float lookSmooth = 15f;
 
     CharacterController _controller;
     Vector3 _velocity;
     float _xRotation = 0f;
+
+    [Header("Flashlight")]
     [SerializeField] private Light _flashlight;
+    public float maxBattery = 100f;
+    public float batteryConsumedPerSecond = 2f;
+    private float _currentBattery;
 
     public Transform playerCamera;
 
-
     // NEW INPUT SYSTEM
-
     PlayerMovement _inputActions;
     InputAction _moveAction;
     InputAction _lookAction;
@@ -26,7 +31,6 @@ public class FirstPersonController : MonoBehaviour
 
     Vector2 _moveInput;
     Vector2 _lookInput;
-
     Vector2 _smoothLookInput;
 
     void Awake()
@@ -62,6 +66,8 @@ public class FirstPersonController : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        _currentBattery = maxBattery;
     }
 
     void Update()
@@ -69,10 +75,12 @@ public class FirstPersonController : MonoBehaviour
         _moveInput = _moveAction.ReadValue<Vector2>();
         _lookInput = _lookAction.ReadValue<Vector2>();
 
+        Debug.Log("Bateria: " + _currentBattery);
+
         FlashlightAction();
+        FlashlightBatterySystem();
 
         LookActions();
-
         MoveActions();
     }
 
@@ -92,31 +100,53 @@ public class FirstPersonController : MonoBehaviour
     {
         _smoothLookInput = Vector2.Lerp(_smoothLookInput, _lookInput, lookSmooth * Time.deltaTime);
 
-        float mouseX = _smoothLookInput.x * mouseSensivity * Time.deltaTime;
-        float mouseY = _smoothLookInput.y * mouseSensivity * Time.deltaTime;
+        float sens = (Gamepad.current != null) ? gamepadSensivity : mouseSensivity;
 
-        _xRotation -= mouseY;
+        float lookX = _smoothLookInput.x * sens * Time.deltaTime;
+        float lookY = _smoothLookInput.y * sens * Time.deltaTime;
+
+        _xRotation -= lookY;
         _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
 
         playerCamera.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+        transform.Rotate(Vector3.up * lookX);
     }
 
     private void FlashlightAction()
-
     {
         if (_flashlightAction.WasPressedThisFrame())
         {
-            Debug.Log("se presiono f");
-            if (_flashlight.isActiveAndEnabled)
+            if (_flashlight != null)
             {
-                _flashlight.enabled = false;
-            }
-            else
-            {
-                _flashlight.enabled = true;
+                if (!_flashlight.enabled && _currentBattery > 0)
+                {
+                    _flashlight.enabled = true;
+                }
+                else
+                {
+                    _flashlight.enabled = false;
+                }
             }
         }
+    }
 
+    private void FlashlightBatterySystem()
+    {
+        if (_flashlight == null) return;
+
+        
+        if (_flashlight.enabled)
+        {
+            _currentBattery -= batteryConsumedPerSecond * Time.deltaTime;
+
+            if (_currentBattery <= 0)
+            {
+                _currentBattery = 0;
+                _flashlight.enabled = false; 
+            }
+        }
+        else
+        {
+      }
     }
 }
