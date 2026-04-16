@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;   
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class FirstPersonController : MonoBehaviour
 
     public float gravity = -9.81f;
     public float lookSmooth = 15f;
+
+    public Slider batterySlider;
 
     CharacterController _controller;
     Vector3 _velocity;
@@ -68,6 +71,8 @@ public class FirstPersonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         _currentBattery = maxBattery;
+
+        batterySlider.maxValue = maxBattery;
     }
 
     void Update()
@@ -76,6 +81,8 @@ public class FirstPersonController : MonoBehaviour
         _lookInput = _lookAction.ReadValue<Vector2>();
 
         Debug.Log("Bateria: " + _currentBattery);
+
+        batterySlider.value = _currentBattery;
 
         FlashlightAction();
         FlashlightBatterySystem();
@@ -148,5 +155,16 @@ public class FirstPersonController : MonoBehaviour
         else
         {
       }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bateria"))
+        {
+            _currentBattery = maxBattery;
+            Debug.Log("Batería recargada");
+
+            //Destroy(other.gameObject);
+        }
     }
 }
