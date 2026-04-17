@@ -7,10 +7,10 @@ public class FirstPersonController : MonoBehaviour
     public float speed = 5f;
 
     public float mouseSensivity = 500f;
-    public float gamepadSensivity = 200f;
+    public float gamepadSensivity = 30f;
 
     public float gravity = -9.81f;
-    public float lookSmooth = 15f;
+    public float lookSmooth = 10f;
 
     public Slider batterySlider;
 
@@ -21,12 +21,15 @@ public class FirstPersonController : MonoBehaviour
     [Header("Flashlight")]
     [SerializeField] private Light _flashlight;
     public float maxBattery = 100f;
-    public float batteryConsumedPerSecond = 2f;
+    public float batteryConsumedPerSecond = 1f;
+    public float batteryRechargePerSecond = 10f;
+
     private float _currentBattery;
+    private bool _isRecharging;
 
     public Transform playerCamera;
 
-    // NEW INPUT SYSTEM
+    // New Input System
     PlayerMovement _inputActions;
     InputAction _moveAction;
     InputAction _lookAction;
@@ -86,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
 
         FlashlightAction();
         FlashlightBatterySystem();
+        FlashlightBatteryRechargeSystem();
 
         LookActions();
         MoveActions();
@@ -161,10 +165,36 @@ public class FirstPersonController : MonoBehaviour
     {
         if (other.CompareTag("Bateria"))
         {
-            _currentBattery = maxBattery;
-            Debug.Log("Batería recargada");
+            _isRecharging = true;
+        }
 
-            //Destroy(other.gameObject);
+        else _isRecharging = false;
+  
+    }
+
+    private void FlashlightBatteryRechargeSystem()
+    {
+         if (_flashlight == null) return;
+
+         // Consume si está encendida
+         if(_flashlight.enabled)
+        {
+            _currentBattery -= batteryConsumedPerSecond * Time.deltaTime;
+        }
+
+         // Recarga si estás en zona de recarga
+         if (_isRecharging) 
+        {
+            _currentBattery += batteryRechargePerSecond * Time.deltaTime;
+        }
+
+        // Límites 
+        _currentBattery = Mathf.Clamp(_currentBattery, 0, maxBattery);
+
+        // Si se quedó sin batería, se apaga sola
+        if (_currentBattery <= 0)
+        {
+            _flashlight.enabled = false;
         }
     }
 }
