@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;   
+using UnityEngine.UI;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -76,6 +76,10 @@ public class FirstPersonController : MonoBehaviour
         _currentBattery = maxBattery;
 
         batterySlider.maxValue = maxBattery;
+
+        // Linterna apagada al inicio
+        if (_flashlight != null)
+            _flashlight.enabled = false;
     }
 
     void Update()
@@ -83,13 +87,10 @@ public class FirstPersonController : MonoBehaviour
         _moveInput = _moveAction.ReadValue<Vector2>();
         _lookInput = _lookAction.ReadValue<Vector2>();
 
-        Debug.Log("Bateria: " + _currentBattery);
-
         batterySlider.value = _currentBattery;
 
         FlashlightAction();
         FlashlightBatterySystem();
-        FlashlightBatteryRechargeSystem();
 
         LookActions();
         MoveActions();
@@ -129,6 +130,7 @@ public class FirstPersonController : MonoBehaviour
         {
             if (_flashlight != null)
             {
+                // Solo se puede prender si hay bateria
                 if (!_flashlight.enabled && _currentBattery > 0)
                 {
                     _flashlight.enabled = true;
@@ -145,20 +147,26 @@ public class FirstPersonController : MonoBehaviour
     {
         if (_flashlight == null) return;
 
-        
+        // Consume bateria si esta prendida
         if (_flashlight.enabled)
         {
             _currentBattery -= batteryConsumedPerSecond * Time.deltaTime;
-
-            if (_currentBattery <= 0)
-            {
-                _currentBattery = 0;
-                _flashlight.enabled = false; 
-            }
         }
-        else
+
+        // Recarga bateria si estas en zona de recarga
+        if (_isRecharging)
         {
-      }
+            _currentBattery += batteryRechargePerSecond * Time.deltaTime;
+        }
+
+        // Limites
+        _currentBattery = Mathf.Clamp(_currentBattery, 0, maxBattery);
+
+        // Si se queda sin bateria, se apaga sola
+        if (_currentBattery <= 0)
+        {
+            _flashlight.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -167,34 +175,13 @@ public class FirstPersonController : MonoBehaviour
         {
             _isRecharging = true;
         }
-
-        else _isRecharging = false;
-  
     }
 
-    private void FlashlightBatteryRechargeSystem()
+    private void OnTriggerExit(Collider other)
     {
-         if (_flashlight == null) return;
-
-         // Consume si está encendida
-         if(_flashlight.enabled)
+        if (other.CompareTag("Bateria"))
         {
-            _currentBattery -= batteryConsumedPerSecond * Time.deltaTime;
-        }
-
-         // Recarga si estás en zona de recarga
-         if (_isRecharging) 
-        {
-            _currentBattery += batteryRechargePerSecond * Time.deltaTime;
-        }
-
-        // Límites 
-        _currentBattery = Mathf.Clamp(_currentBattery, 0, maxBattery);
-
-        // Si se quedó sin batería, se apaga sola
-        if (_currentBattery <= 0)
-        {
-            _flashlight.enabled = false;
+            _isRecharging = false;
         }
     }
 }
