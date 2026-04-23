@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class FirstPersonController : MonoBehaviour
     private bool _isRecharging;
 
     public Transform playerCamera;
+
+    [SerializeField] private TextMeshProUGUI _chargeText;
+    private bool _inChargeZone = false;
+    private bool _charging = false;
+
 
     // New Input System
     PlayerMovement _inputActions;
@@ -73,6 +79,8 @@ public class FirstPersonController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
 
+        _chargeText.alpha = 0;
+
         _currentBattery = maxBattery;
 
         batterySlider.maxValue = maxBattery;
@@ -86,6 +94,16 @@ public class FirstPersonController : MonoBehaviour
     {
         _moveInput = _moveAction.ReadValue<Vector2>();
         _lookInput = _lookAction.ReadValue<Vector2>();
+
+        if (_inChargeZone && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            _charging = true;
+        }
+
+        if (_inChargeZone == false)
+        {
+            _charging = false;
+        }
 
         batterySlider.value = _currentBattery;
 
@@ -154,7 +172,7 @@ public class FirstPersonController : MonoBehaviour
         }
 
         // Recarga bateria si estas en zona de recarga
-        if (_isRecharging)
+        if (_charging)
         {
             _currentBattery += batteryRechargePerSecond * Time.deltaTime;
         }
@@ -173,7 +191,8 @@ public class FirstPersonController : MonoBehaviour
     {
         if (other.CompareTag("Bateria"))
         {
-            _isRecharging = true;
+            _inChargeZone = true;
+            _chargeText.alpha = 1;
         }
     }
 
@@ -181,7 +200,9 @@ public class FirstPersonController : MonoBehaviour
     {
         if (other.CompareTag("Bateria"))
         {
-            _isRecharging = false;
+            _inChargeZone = false;
+            _charging = false;
+            _chargeText.alpha = 0;
         }
     }
 }
