@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -40,6 +41,6 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("El jugador murió");
 
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
