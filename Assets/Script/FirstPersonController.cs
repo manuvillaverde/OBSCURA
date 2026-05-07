@@ -22,7 +22,7 @@ public class FirstPersonController : MonoBehaviour
     [Header("Flashlight")]
     [SerializeField] private Light _flashlight;
     public float maxBattery = 100f;
-    public float batteryConsumedPerSecond = 1f;
+    public float batteryConsumedPerSecond = 2f;
     public float batteryRechargePerSecond = 10f;
 
     private float _currentBattery;

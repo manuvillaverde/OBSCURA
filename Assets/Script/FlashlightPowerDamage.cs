@@ -9,7 +9,7 @@ public class FlashlightPowerDamage : MonoBehaviour
 
     [Header("Power Mode")]
     public float normalIntensity = 30f;
-    public float powerIntensity = 60f;
+    public float powerIntensity = 80f;
 
     public float damagePerSecond = 10f;
     public float range = 10f;
@@ -24,7 +24,7 @@ public class FlashlightPowerDamage : MonoBehaviour
 
         if (!flashlight.enabled ) return;
 
-        flashlight.intensity = _powerMode ? normalIntensity : powerIntensity;
+        flashlight.intensity = _powerMode ? powerIntensity : normalIntensity;
 
         if (!_powerMode) return;
 
