@@ -18,18 +18,19 @@ public class PlayerHealth : MonoBehaviour
             healthSlider.value = _currentHealth;
         }
     }
+
     void Update()
     {
         if (healthSlider != null)
             healthSlider.value = _currentHealth;
     }
-    public void TakeDamage(float damage)
 
+    public void TakeDamage(float damage)
     {
-        _currentHealth -= damage;  
+        _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
 
-        Debug.Log("Vida actual:" +  _currentHealth);
+        Debug.Log("Vida actual:" + _currentHealth);
 
         if (_currentHealth <= 0)
         {
@@ -37,10 +38,20 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void Heal(float amount)
+    {
+        _currentHealth += amount;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
+
+        Debug.Log("Curado! Vida actual: " + _currentHealth);
+
+        if (healthSlider != null)
+            healthSlider.value = _currentHealth;
+    }
+
     private void Die()
     {
         Debug.Log("El jugador murió");
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
