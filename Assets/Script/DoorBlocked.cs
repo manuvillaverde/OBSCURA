@@ -1,44 +1,69 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections;
 
 public class DoorBlocked : MonoBehaviour
 {
+    public GameObject keyVisual;
+
     public GameObject door;
+
     public TextMeshProUGUI interactText;
 
     private bool _playerInRange = false;
+    private bool _openingDoor = false;
+
     private PlayerInventory _inventory;
 
     void Start()
     {
         if (interactText != null)
             interactText.text = "";
+
+        if (keyVisual != null)
+            keyVisual.SetActive(false);
     }
 
     void Update()
     {
+        if (_openingDoor) return;
+
         if (_playerInRange && Keyboard.current.eKey.wasPressedThisFrame)
         {
             if (_inventory != null && _inventory.hasKey)
             {
-                Debug.Log("Puerta abierta!");
-
-                Destroy(door);
-
-                if (interactText != null)
-                    interactText.text = "";
-
-                Destroy(gameObject);
+                StartCoroutine(OpenDoorSequence());
             }
             else
             {
-                if (interactText != null)
-                    interactText.text = "You need a key";
-
-                Debug.Log("Necesitas una llave");
+                interactText.text = "You need a key";
             }
         }
+    }
+
+    IEnumerator OpenDoorSequence()
+    {
+        _openingDoor = true;
+
+        interactText.text = "";
+
+       
+        if (keyVisual != null)
+            keyVisual.SetActive(true);
+
+        
+        yield return new WaitForSeconds(1.5f);
+
+        Destroy(keyVisual);
+
+      
+        Destroy(door);
+
+        yield return new WaitForSeconds(0.2f);
+
+       
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,8 +74,7 @@ public class DoorBlocked : MonoBehaviour
 
             _inventory = other.GetComponent<PlayerInventory>();
 
-            if (interactText != null)
-                interactText.text = "Press E to open";
+            interactText.text = "Press E to open";
         }
     }
 
@@ -60,8 +84,7 @@ public class DoorBlocked : MonoBehaviour
         {
             _playerInRange = false;
 
-            if (interactText != null)
-                interactText.text = "";
+            interactText.text = "";
         }
     }
 }
