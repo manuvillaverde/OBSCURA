@@ -11,11 +11,17 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+       
+        agent.Warp(transform.position);
     }
 
     void Update()
     {
         if (player == null) return;
+
+   
+        if (!agent.isOnNavMesh) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 

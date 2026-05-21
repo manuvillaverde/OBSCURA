@@ -78,6 +78,7 @@
     <Compile Include="Assets\Script\FlashlightPowerDamage.cs" />
     <Compile Include="Assets\Script\EnemyHealth.cs" />
     <Compile Include="Assets\Script\EnemyDamage.cs" />
+    <Compile Include="Assets\Script\KeyItem.cs" />
     <Compile Include="Assets\Flooded_Grounds\Scripts\FPSDisplay.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Flooded_Grounds\Scripts\FPSController\CharController_Motor.cs" />
@@ -107,11 +108,13 @@
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Components\ChromaticAberrationComponent.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
+    <Compile Include="Assets\Script\PlayerInventory.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Components\EyeAdaptationComponent.cs" />
     <Compile Include="Assets\Script\PlayerHealth.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Components\MotionBlurComponent.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\PostProcessingModel.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Models\ScreenSpaceReflectionModel.cs" />
+    <Compile Include="Assets\Script\DoorBlocked.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Models\ChromaticAberrationModel.cs" />
     <Compile Include="Assets\Flooded_Grounds\PostProcessing\Runtime\Components\TaaComponent.cs" />
