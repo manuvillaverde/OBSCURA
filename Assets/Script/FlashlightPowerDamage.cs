@@ -11,6 +11,7 @@ public class FlashlightPowerDamage : MonoBehaviour
     public float normalIntensity = 30f;
     public float powerIntensity = 80f;
 
+    [Header("Damage")]
     public float damagePerSecond = 10f;
     public float range = 10f;
 
@@ -22,25 +23,40 @@ public class FlashlightPowerDamage : MonoBehaviour
 
         _powerMode = Mouse.current.rightButton.isPressed;
 
-        if (!flashlight.enabled ) return;
+        if (!flashlight.enabled) return;
 
-        flashlight.intensity = _powerMode ? powerIntensity : normalIntensity;
+        // Intensidad segun modo
+        flashlight.intensity = _powerMode
+            ? powerIntensity
+            : normalIntensity;
 
+        // Daño SOLO en modo power
         if (!_powerMode) return;
 
-        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+        Ray ray = new Ray(
+            playerCamera.position,
+            playerCamera.forward
+        );
+
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, range))
         {
-            EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+            EnemyHealth enemy =
+                hit.collider.GetComponent<EnemyHealth>();
 
             if (enemy != null)
             {
-                enemy.TakeDamage(damagePerSecond * Time.deltaTime);
+                enemy.TakeDamage(
+                    damagePerSecond * Time.deltaTime
+                );
             }
         }
     }
-}
-    
 
+    public bool IsPowerMode()
+    {
+        return _powerMode;
+    }
+
+}

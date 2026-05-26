@@ -21,8 +21,15 @@ public class FirstPersonController : MonoBehaviour
 
     [Header("Flashlight")]
     [SerializeField] private Light _flashlight;
+
     public float maxBattery = 100f;
-    public float batteryConsumedPerSecond = 2f;
+
+    // Consumo normal
+    public float batteryConsumedPerSecond = 0.5f;
+
+    // Consumo modo power
+    public float powerBatteryConsumedPerSecond = 2f;
+
     public float batteryRechargePerSecond = 10f;
 
     private float _currentBattery;
@@ -34,6 +41,8 @@ public class FirstPersonController : MonoBehaviour
     private bool _inChargeZone = false;
     private bool _charging = false;
 
+    // Referencia al script power
+    private FlashlightPowerDamage _powerScript;
 
     // New Input System
     PlayerMovement _inputActions;
@@ -77,6 +86,9 @@ public class FirstPersonController : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+
+        _powerScript = GetComponent<FlashlightPowerDamage>();
+
         Cursor.lockState = CursorLockMode.Locked;
 
         _chargeText.alpha = 0;
@@ -117,28 +129,39 @@ public class FirstPersonController : MonoBehaviour
     private void MoveActions()
     {
         Vector3 move = (transform.right * _moveInput.x + transform.forward * _moveInput.y).normalized;
+
         _controller.Move(move * speed * Time.deltaTime);
 
         if (_controller.isGrounded && _velocity.y < 0)
             _velocity.y = -2f;
 
         _velocity.y += gravity * Time.deltaTime;
+
         _controller.Move(_velocity * Time.deltaTime);
     }
 
     private void LookActions()
     {
-        _smoothLookInput = Vector2.Lerp(_smoothLookInput, _lookInput, lookSmooth * Time.deltaTime);
+        _smoothLookInput = Vector2.Lerp(
+            _smoothLookInput,
+            _lookInput,
+            lookSmooth * Time.deltaTime
+        );
 
-        float sens = (Gamepad.current != null) ? gamepadSensivity : mouseSensivity;
+        float sens = (Gamepad.current != null)
+            ? gamepadSensivity
+            : mouseSensivity;
 
         float lookX = _smoothLookInput.x * sens * Time.deltaTime;
         float lookY = _smoothLookInput.y * sens * Time.deltaTime;
 
         _xRotation -= lookY;
+
         _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
 
-        playerCamera.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+        playerCamera.localRotation =
+            Quaternion.Euler(_xRotation, 0f, 0f);
+
         transform.Rotate(Vector3.up * lookX);
     }
 
@@ -168,19 +191,35 @@ public class FirstPersonController : MonoBehaviour
         // Consume bateria si esta prendida
         if (_flashlight.enabled)
         {
-            _currentBattery -= batteryConsumedPerSecond * Time.deltaTime;
+            // Modo power
+            if (_powerScript != null && _powerScript.IsPowerMode())
+            {
+                _currentBattery -=
+                    powerBatteryConsumedPerSecond * Time.deltaTime;
+            }
+            else
+            {
+                // Modo normal
+                _currentBattery -=
+                    batteryConsumedPerSecond * Time.deltaTime;
+            }
         }
 
-        // Recarga bateria si estas en zona de recarga
+        // Recarga bateria
         if (_charging)
         {
-            _currentBattery += batteryRechargePerSecond * Time.deltaTime;
+            _currentBattery +=
+                batteryRechargePerSecond * Time.deltaTime;
         }
 
         // Limites
-        _currentBattery = Mathf.Clamp(_currentBattery, 0, maxBattery);
+        _currentBattery = Mathf.Clamp(
+            _currentBattery,
+            0,
+            maxBattery
+        );
 
-        // Si se queda sin bateria, se apaga sola
+        // Si no hay bateria se apaga
         if (_currentBattery <= 0)
         {
             _flashlight.enabled = false;
