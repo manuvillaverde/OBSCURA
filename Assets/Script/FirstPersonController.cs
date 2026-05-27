@@ -24,12 +24,8 @@ public class FirstPersonController : MonoBehaviour
 
     public float maxBattery = 100f;
 
-    // Consumo normal
     public float batteryConsumedPerSecond = 0.5f;
-
-    // Consumo modo power
     public float powerBatteryConsumedPerSecond = 2f;
-
     public float batteryRechargePerSecond = 10f;
 
     private float _currentBattery;
@@ -41,10 +37,8 @@ public class FirstPersonController : MonoBehaviour
     private bool _inChargeZone = false;
     private bool _charging = false;
 
-    // Referencia al script power
     private FlashlightPowerDamage _powerScript;
 
-    // New Input System
     PlayerMovement _inputActions;
     InputAction _moveAction;
     InputAction _lookAction;
@@ -86,7 +80,6 @@ public class FirstPersonController : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
-
         _powerScript = GetComponent<FlashlightPowerDamage>();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -94,10 +87,8 @@ public class FirstPersonController : MonoBehaviour
         _chargeText.alpha = 0;
 
         _currentBattery = maxBattery;
-
         batterySlider.maxValue = maxBattery;
 
-        // Linterna apagada al inicio
         if (_flashlight != null)
             _flashlight.enabled = false;
     }
@@ -156,7 +147,6 @@ public class FirstPersonController : MonoBehaviour
         float lookY = _smoothLookInput.y * sens * Time.deltaTime;
 
         _xRotation -= lookY;
-
         _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
 
         playerCamera.localRotation =
@@ -165,13 +155,19 @@ public class FirstPersonController : MonoBehaviour
         transform.Rotate(Vector3.up * lookX);
     }
 
+  
+    public void LockLookForFrame()
+    {
+        _smoothLookInput = Vector2.zero;
+        _lookInput = Vector2.zero;
+    }
+
     private void FlashlightAction()
     {
         if (_flashlightAction.WasPressedThisFrame())
         {
             if (_flashlight != null)
             {
-                // Solo se puede prender si hay bateria
                 if (!_flashlight.enabled && _currentBattery > 0)
                 {
                     _flashlight.enabled = true;
@@ -188,42 +184,27 @@ public class FirstPersonController : MonoBehaviour
     {
         if (_flashlight == null) return;
 
-        // Consume bateria si esta prendida
         if (_flashlight.enabled)
         {
-            // Modo power
             if (_powerScript != null && _powerScript.IsPowerMode())
             {
-                _currentBattery -=
-                    powerBatteryConsumedPerSecond * Time.deltaTime;
+                _currentBattery -= powerBatteryConsumedPerSecond * Time.deltaTime;
             }
             else
             {
-                // Modo normal
-                _currentBattery -=
-                    batteryConsumedPerSecond * Time.deltaTime;
+                _currentBattery -= batteryConsumedPerSecond * Time.deltaTime;
             }
         }
 
-        // Recarga bateria
         if (_charging)
         {
-            _currentBattery +=
-                batteryRechargePerSecond * Time.deltaTime;
+            _currentBattery += batteryRechargePerSecond * Time.deltaTime;
         }
 
-        // Limites
-        _currentBattery = Mathf.Clamp(
-            _currentBattery,
-            0,
-            maxBattery
-        );
+        _currentBattery = Mathf.Clamp(_currentBattery, 0, maxBattery);
 
-        // Si no hay bateria se apaga
         if (_currentBattery <= 0)
-        {
             _flashlight.enabled = false;
-        }
     }
 
     private void OnTriggerEnter(Collider other)
