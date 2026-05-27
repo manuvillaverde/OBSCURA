@@ -13,8 +13,11 @@ public class RadioInteractable : MonoBehaviour
 
     void Start()
     {
-        radioLight.color = Color.red;
-        pressText.gameObject.SetActive(false);
+        if (radioLight != null)
+            radioLight.color = Color.red;
+
+        if (pressText != null)
+            pressText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -23,7 +26,8 @@ public class RadioInteractable : MonoBehaviour
 
         if (playerInRange && !hasPlayed)
         {
-            pressText.gameObject.SetActive(true);
+            if (pressText != null)
+                pressText.gameObject.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -31,7 +35,7 @@ public class RadioInteractable : MonoBehaviour
             }
         }
 
-        if (hasPlayed && !audioSource.isPlaying)
+        if (hasPlayed && audioSource != null && !audioSource.isPlaying)
         {
             FinishRadio();
         }
@@ -39,18 +43,37 @@ public class RadioInteractable : MonoBehaviour
 
     void PlayRadio()
     {
+        if (audioSource == null) return;
+
         audioSource.Play();
         hasPlayed = true;
 
-        pressText.gameObject.SetActive(false);
-        radioLight.color = Color.green;
+        if (pressText != null)
+            pressText.gameObject.SetActive(false);
+
+        if (radioLight != null)
+            radioLight.color = Color.green;
     }
 
     void FinishRadio()
     {
         hasFinished = true;
-        pressText.gameObject.SetActive(false);
-        radioLight.color = Color.red;
+
+        if (pressText != null)
+            pressText.gameObject.SetActive(false);
+
+        if (radioLight != null)
+            radioLight.color = Color.red;
+
+        if (GameState.Instance != null)
+        {
+            GameState.Instance.hasHeardRadio = true;
+            Debug.Log("RADIO COMPLETADA");
+        }
+        else
+        {
+            Debug.LogError("GameState NO existe en la escena");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,7 +82,6 @@ public class RadioInteractable : MonoBehaviour
         {
             playerInRange = true;
 
-  
             FirstPersonController controller =
                 other.GetComponent<FirstPersonController>();
 
@@ -75,7 +97,9 @@ public class RadioInteractable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            pressText.gameObject.SetActive(false);
+
+            if (pressText != null)
+                pressText.gameObject.SetActive(false);
         }
     }
 }
