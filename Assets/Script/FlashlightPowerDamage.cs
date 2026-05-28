@@ -25,12 +25,10 @@ public class FlashlightPowerDamage : MonoBehaviour
 
         if (!flashlight.enabled) return;
 
-        // Intensidad segun modo
         flashlight.intensity = _powerMode
             ? powerIntensity
             : normalIntensity;
 
-        // Daño SOLO en modo power
         if (!_powerMode) return;
 
         Ray ray = new Ray(

@@ -1157,6 +1157,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7681932527551186152, guid: 38c434d111d710240a69b8c52585f737, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8414451257709095593, guid: 38c434d111d710240a69b8c52585f737, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8485038594235865719, guid: 38c434d111d710240a69b8c52585f737, type: 3}
       propertyPath: healthSlider
       value: 
@@ -1964,6 +1972,10 @@ PrefabInstance:
     - target: {fileID: 632255428459066254, guid: 55bdce718f74717459b55d94426a6352, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223059520473662225, guid: 55bdce718f74717459b55d94426a6352, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5133667753338468736, guid: 55bdce718f74717459b55d94426a6352, type: 3}
       propertyPath: keyVisual
