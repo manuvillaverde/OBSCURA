@@ -173,7 +173,7 @@ Material:
     - EFFECT_EXTRA_TEX: 1
     - _AlphaClipThreshold: 0.33
     - _Cutoff: 0.4
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _HueVariationKwToggle: 1
     - _Metallic: 0
     - _OldHueVarBehavior: 0

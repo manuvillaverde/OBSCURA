@@ -977,15 +977,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4ba5936d51585f43818d304b298af64, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4ba5936d51585f43818d304b298af64, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4ba5936d51585f43818d304b298af64, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4ba5936d51585f43818d304b298af64, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4273,8 +4273,8 @@ Avatar:
     4151240108: rig.001/MCH-thigh_ik_target.parent.L/thigh_ik_target.L/thigh_ik_target.L_end
     3365898866: rig.001/MCH-torso.parent/torso/MCH-spine.001/spine_fk.001/MCH-spine/spine_fk/tweak_spine/ORG-spine/DEF-thigh.R/DEF-thigh.R.001/DEF-shin.R/DEF-shin.R.001/DEF-foot.R/DEF-toe.R/DEF-toe.R_end
     3250329992: rig.001/MCH-foot_ik.parent.L/foot_ik.L/foot_spin_ik.L/foot_heel_ik.L/foot_heel_ik.L_end
-    2233044057: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.L/MCH-upper_arm_parent.L/upper_arm_fk.L
     3693483268: rig.001/MCH-torso.parent/torso/MCH-spine.001/spine_fk.001/MCH-spine/spine_fk/tweak_spine/ORG-spine/ORG-thigh.R/ORG-shin.R/MCH-shin_tweak.R.001/shin_tweak.R.001
+    2233044057: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.L/MCH-upper_arm_parent.L/upper_arm_fk.L
     2736984603: rig.001/root/DEF-spine
     3792399644: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.L/MCH-upper_arm_parent.L/upper_arm_fk.L/forearm_fk.L/MCH-hand_fk.L/hand_fk.L
     1255484246: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.R/ORG-upper_arm.R/MCH-upper_arm_parent_widget.R
@@ -4440,8 +4440,8 @@ Avatar:
     3082659615: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.R
     3908759517: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.R/MCH-upper_arm_parent.R/upper_arm_fk.R/forearm_fk.R/MCH-hand_fk.R/hand_fk.R/hand_fk.R_end
     382317698: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L
-    3739598336: rig.001/MCH-torso.parent/torso/MCH-spine.001/spine_fk.001/MCH-spine/spine_fk/tweak_spine/ORG-spine/thigh_parent.R/thigh_parent.R_end
     654766952: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.R/DEF-upper_arm.R
+    3739598336: rig.001/MCH-torso.parent/torso/MCH-spine.001/spine_fk.001/MCH-spine/spine_fk/tweak_spine/ORG-spine/thigh_parent.R/thigh_parent.R_end
     2363559560: rig.001/MCH-torso.parent/torso/MCH-spine.001/spine_fk.001/MCH-spine/spine_fk/tweak_spine.001/ORG-spine.001/ORG-spine.001_end
     4019830309: rig.001/MCH-torso.parent/torso/MCH-spine.002/spine_fk.002/MCH-spine.003/spine_fk.003/tweak_spine.003/ORG-spine.003/ORG-shoulder.R/MCH-upper_arm_parent.R/upper_arm_fk.R
     2061289248: rig.001/MCH-torso.parent/torso/MCH-spine.001/spine_fk.001/MCH-spine/spine_fk/tweak_spine/ORG-spine/DEF-thigh.L
