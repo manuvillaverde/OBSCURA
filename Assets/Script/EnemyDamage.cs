@@ -2,18 +2,42 @@ using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
-    public float damage = 10f;
+    public float detectionRadius = 2f;
 
-    private void OnTriggerEnter(Collider other)
+    public void checkForPlayer()
     {
-        if (other.CompareTag("Player"))
-        {
-            PlayerHealth health = other.GetComponent<PlayerHealth>();
+        Debug.Log("Checkear for player");
 
-            if (health != null)
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                detectionRadius
+            );
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Player"))
             {
-                health.TakeDamage(damage);
+                Debug.Log("Jugador detectado");
+
+                PlayerHealth health =
+                    hit.GetComponent<PlayerHealth>();
+
+                if (health != null)
+                {
+                    health.TakeDamage(9999f);
+                }
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            detectionRadius
+        );
     }
 }

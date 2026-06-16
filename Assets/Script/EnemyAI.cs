@@ -4,15 +4,22 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
+
     public float chaseRange = 15f;
+    public float attackRange = 2f;
+
+    public bool isInLight = false;
 
     private NavMeshAgent agent;
+
+    [SerializeField] private Animator _animator;
+
+    private bool isAttacking = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
 
-       
         agent.Warp(transform.position);
     }
 
@@ -20,10 +27,36 @@ public class EnemyAI : MonoBehaviour
     {
         if (player == null) return;
 
-   
         if (!agent.isOnNavMesh) return;
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        _animator.SetFloat("velocity", agent.velocity.magnitude);
+
+        if (isInLight)
+        {
+            agent.isStopped = true;
+            return;
+        }
+
+        float distance = Vector3.Distance(
+            transform.position,
+            player.position
+        );
+
+        if (distance <= attackRange)
+        {
+            agent.isStopped = true;
+
+            if (!isAttacking)
+            {
+                isAttacking = true;
+                _animator.SetTrigger("Attack");
+            }
+
+            return;
+        }
+
+        isAttacking = false;
+        agent.isStopped = false;
 
         if (distance <= chaseRange)
         {
