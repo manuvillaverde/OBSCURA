@@ -1480,6 +1480,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1036947735567831741, guid: bb3db27825d15f942a57391c35c063f9, type: 3}
+      propertyPath: m_text
+      value: 'Presiona [E] para abrir
+
+
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 1278419128999646053, guid: bb3db27825d15f942a57391c35c063f9, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -815.4
@@ -1491,6 +1499,10 @@ PrefabInstance:
     - target: {fileID: 1570360612125227566, guid: bb3db27825d15f942a57391c35c063f9, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574210789733702402, guid: bb3db27825d15f942a57391c35c063f9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 184.5
       objectReference: {fileID: 0}
     - target: {fileID: 2552660380614771911, guid: bb3db27825d15f942a57391c35c063f9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4687,7 +4699,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press [E] to listen
+  m_text: 'Presiona [E] para escuchar
+
 
 '
   m_isRightToLeft: 0
@@ -4785,7 +4798,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 209.8, y: -300}
+  m_AnchoredPosition: {x: 184.6, y: -300}
   m_SizeDelta: {x: 748.9118, y: 42.2704}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1433758065
