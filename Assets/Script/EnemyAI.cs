@@ -19,7 +19,6 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
         agent.Warp(transform.position);
     }
 
@@ -34,6 +33,12 @@ public class EnemyAI : MonoBehaviour
         if (isInLight)
         {
             agent.isStopped = true;
+            agent.ResetPath();
+
+            isAttacking = false;
+
+            _animator.ResetTrigger("Attack");
+
             return;
         }
 
