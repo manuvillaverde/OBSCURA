@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -8,64 +8,91 @@ public class EnemyAI : MonoBehaviour
     public float chaseRange = 15f;
     public float attackRange = 2f;
 
-    public bool isInLight = false;
+    public bool isInLight;
 
     private NavMeshAgent agent;
+    private Animator animator;
 
-    [SerializeField] private Animator _animator;
+    private float attackCooldown = 1.5f;
+    private float lastAttackTime;
 
-    private bool isAttacking = false;
+    private bool attackLocked;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.Warp(transform.position);
+        animator = GetComponentInChildren<Animator>();
+
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        agent.stoppingDistance = 0.5f;
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (!player || !agent || !animator) return;
 
-        if (!agent.isOnNavMesh) return;
+        float distance = Vector3.Distance(transform.position, player.position);
 
-        _animator.SetFloat("velocity", agent.velocity.magnitude);
+        animator.SetFloat("velocity", agent.velocity.magnitude);
 
+        // 💡 LIGHT
         if (isInLight)
         {
-            agent.isStopped = true;
-            agent.ResetPath();
-
-            isAttacking = false;
-
-            _animator.ResetTrigger("Attack");
-
+            StopMovement();
             return;
         }
 
-        float distance = Vector3.Distance(
-            transform.position,
-            player.position
-        );
-
+        // ⚔️ ATTACK
         if (distance <= attackRange)
         {
-            agent.isStopped = true;
-
-            if (!isAttacking)
-            {
-                isAttacking = true;
-                _animator.SetTrigger("Attack");
-            }
-
+            Attack();
             return;
         }
 
-        isAttacking = false;
-        agent.isStopped = false;
+        // reset lock si salió del rango
+        attackLocked = false;
 
+        // 🟡 CHASE
         if (distance <= chaseRange)
         {
+            agent.isStopped = false;
             agent.SetDestination(player.position);
         }
+        else
+        {
+            StopMovement();
+        }
+    }
+
+    void Attack()
+    {
+        StopMovement();
+
+        if (attackLocked)
+            return;
+
+        if (Time.time < lastAttackTime + attackCooldown)
+            return;
+
+        lastAttackTime = Time.time;
+        attackLocked = true;
+
+        animator.SetTrigger("attack");
+    }
+
+    void StopMovement()
+    {
+        if (agent == null) return;
+
+        agent.isStopped = true;
+        agent.ResetPath();
+    }
+
+    // 💀 LLAMADO DESDE ANIMATION EVENT (ÚLTIMO FRAME DEL ATTACK)
+    public void EndAttack()
+    {
+        attackLocked = false;
     }
 }

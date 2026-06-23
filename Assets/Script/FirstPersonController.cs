@@ -1,3 +1,4 @@
+﻿
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -155,7 +156,7 @@ public class FirstPersonController : MonoBehaviour
         transform.Rotate(Vector3.up * lookX);
     }
 
-  
+
     public void LockLookForFrame()
     {
         _smoothLookInput = Vector2.zero;
