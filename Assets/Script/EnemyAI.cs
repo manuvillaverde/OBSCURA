@@ -37,24 +37,24 @@ public class EnemyAI : MonoBehaviour
 
         animator.SetFloat("velocity", agent.velocity.magnitude);
 
-        // 💡 LIGHT
+      
         if (isInLight)
         {
             StopMovement();
             return;
         }
 
-        // ⚔️ ATTACK
+       
         if (distance <= attackRange)
         {
             Attack();
             return;
         }
 
-        // reset lock si salió del rango
+       
         attackLocked = false;
 
-        // 🟡 CHASE
+   
         if (distance <= chaseRange)
         {
             agent.isStopped = false;
@@ -90,7 +90,7 @@ public class EnemyAI : MonoBehaviour
         agent.ResetPath();
     }
 
-    // 💀 LLAMADO DESDE ANIMATION EVENT (ÚLTIMO FRAME DEL ATTACK)
+   
     public void EndAttack()
     {
         attackLocked = false;

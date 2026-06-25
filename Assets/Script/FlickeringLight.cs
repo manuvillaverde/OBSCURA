@@ -5,7 +5,7 @@ public class FlickeringLight : MonoBehaviour
 {
     [Header("Referencias")]
     public Light spotLight;
-    public GameObject lightZone;
+    public LightZoneController lightZone;
 
     [Header("Tiempos")]
     public float onTime = 4f;
@@ -25,19 +25,19 @@ public class FlickeringLight : MonoBehaviour
 
         while (true)
         {
-            // Encender
+            
             spotLight.enabled = true;
 
             if (lightZone != null)
-                lightZone.SetActive(true);
+                lightZone.lightEnabled = true;
 
             yield return new WaitForSeconds(onTime);
 
-            // Apagar
+            
             spotLight.enabled = false;
 
             if (lightZone != null)
-                lightZone.SetActive(false);
+                lightZone.lightEnabled = false;
 
             yield return new WaitForSeconds(offTime);
         }
