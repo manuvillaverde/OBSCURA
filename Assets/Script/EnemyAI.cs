@@ -3,6 +3,8 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public static bool tutorialCompleted = false;
+
     public Transform player;
 
     public float chaseRange = 15f;
@@ -37,26 +39,25 @@ public class EnemyAI : MonoBehaviour
 
         animator.SetFloat("velocity", agent.velocity.magnitude);
 
-      
         if (isInLight)
         {
             StopMovement();
             return;
         }
 
-       
         if (distance <= attackRange)
         {
             Attack();
             return;
         }
 
-       
         attackLocked = false;
 
-   
         if (distance <= chaseRange)
         {
+            if (!tutorialCompleted)
+                tutorialCompleted = true;
+
             agent.isStopped = false;
             agent.SetDestination(player.position);
         }
@@ -90,7 +91,6 @@ public class EnemyAI : MonoBehaviour
         agent.ResetPath();
     }
 
-   
     public void EndAttack()
     {
         attackLocked = false;

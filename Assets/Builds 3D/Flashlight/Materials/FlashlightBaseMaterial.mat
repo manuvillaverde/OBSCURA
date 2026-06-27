@@ -92,7 +92,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _MaterialID: 4
-    - _Metallic: 1
+    - _Metallic: 0.258
     - _Shininess: 0.3630957
     - _Smoothness: 0
     - _SmoothnessRemapMax: 1

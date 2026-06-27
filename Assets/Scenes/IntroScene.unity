@@ -7132,10 +7132,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1562935128401075362, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177660308850899228, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177660308850899228, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
+      propertyPath: m_Shadows.m_Strength
+      value: 0.521
+      objectReference: {fileID: 0}
     - target: {fileID: 3689005791117005649, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
       propertyPath: pressText
       value: 
       objectReference: {fileID: 1372364190}
+    - target: {fileID: 4485433274942849578, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4485433274942849578, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
+      propertyPath: m_Shadows.m_Strength
+      value: 0.959
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594941673743879959, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6416931690126631165, guid: 5bd409d400180604cbd3afc5e870bc73, type: 3}
       propertyPath: pressText
       value: 
